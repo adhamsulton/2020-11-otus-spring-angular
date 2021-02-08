@@ -45,19 +45,14 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('onInit');
-
     this.isupdated = false;
 
     this.bookservice.getBookList().subscribe((data) => {
       this.books = data;
-      console.log('newbook', this.books);
-
       this.dtTrigger.next();
     });
     this.bookservice.getGenreList().subscribe((data) => {
       this.genres = data;
-      console.log('mylist', this.genres);
     });
   }
 
@@ -66,8 +61,6 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>, id: number = null) {
-    console.log(template);
-
     this.modalRef = this.modalService.show(template);
 
     if (!this.authors) {
@@ -109,7 +102,6 @@ export class BookListComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         (data) => {
-          console.log(data);
           this.deleteMessage = true;
           this.bookservice
             .getBookList()
@@ -125,7 +117,6 @@ export class BookListComponent implements OnInit, OnDestroy {
   updateBook(id: number = null) {}
 
   addBook(): void {
-    console.log('add');
     this.updateBook();
   }
 
