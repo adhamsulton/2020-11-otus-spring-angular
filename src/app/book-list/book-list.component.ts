@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { BookService } from '../shared/services/book.service';
 import { Author, Book, Genre } from '../shared/models/book';
-import { Subject, Subscription } from 'rxjs';
 
 import { FormControl, FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -15,11 +14,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./book-list.component.css'],
   providers: [BsModalService],
 })
-export class BookListComponent implements OnInit, OnDestroy {
+export class BookListComponent implements OnInit {
   modalRef: BsModalRef;
 
   booksArray: any[] = [];
-  dtTrigger: Subject<any> = new Subject();
 
   books: Book[];
   book: Book = new Book();
@@ -28,8 +26,6 @@ export class BookListComponent implements OnInit, OnDestroy {
   authors: Author[];
 
   bookupdateForm: FormGroup;
-
-  subscription: Subscription = new Subscription();
 
   constructor(
     private bookservice: BookService,
@@ -48,15 +44,10 @@ export class BookListComponent implements OnInit, OnDestroy {
 
     this.bookservice.getBookList().subscribe((data) => {
       this.books = data;
-      this.dtTrigger.next();
     });
     this.bookservice.getGenreList().subscribe((data) => {
       this.genres = data;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   openModal(template: TemplateRef<any>, id: number = null) {
