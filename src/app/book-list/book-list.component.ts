@@ -23,8 +23,7 @@ export class BookListComponent implements OnInit, OnDestroy {
 
   books: Book[];
   book: Book = new Book();
-  deleteMessage = false;
-  isupdated = false;
+  isAdd = false;
   genres: Genre[];
   authors: Author[];
 
@@ -45,7 +44,7 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.isupdated = false;
+    this.isAdd = false;
 
     this.bookservice.getBookList().subscribe((data) => {
       this.books = data;
@@ -70,6 +69,7 @@ export class BookListComponent implements OnInit, OnDestroy {
     }
 
     if (id) {
+      this.isAdd = false;
       this.bookservice
         .getBook(id)
         .pipe(untilDestroyed(this))
@@ -87,6 +87,7 @@ export class BookListComponent implements OnInit, OnDestroy {
           (error) => console.log(error)
         );
     } else {
+      this.isAdd = true;
       this.bookupdateForm.patchValue({
         id: null,
         name: '',
@@ -102,7 +103,6 @@ export class BookListComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe(
         (data) => {
-          this.deleteMessage = true;
           this.bookservice
             .getBookList()
             .pipe(untilDestroyed(this))
@@ -126,7 +126,7 @@ export class BookListComponent implements OnInit, OnDestroy {
 
     this.bookservice.updateBook(dto).subscribe(
       (data) => {
-        this.isupdated = true;
+        this.isAdd = true;
         this.bookservice
           .getBookList()
           .pipe(untilDestroyed(this))
@@ -141,7 +141,7 @@ export class BookListComponent implements OnInit, OnDestroy {
 
   changeisUpdate() {
     this.modalRef.hide();
-    this.isupdated = false;
+    this.isAdd = false;
   }
 
   authList(authors): string {

@@ -2,18 +2,6 @@
   <div class="panel-heading">
     <h1 style="text-align: center">Books</h1>
     <br />
-    <div class="row" [hidden]="!deleteMessage">
-      <div class="col-sm-4"></div>
-      <div class="col-sm-4">
-        <div class="alert alert-info alert-dismissible">
-          <button type="button" class="close" data-dismiss="alert">
-            &times;
-          </button>
-          <strong>Books Data Deleted</strong>
-        </div>
-      </div>
-      <div class="col-sm-4"></div>
-    </div>
   </div>
 
   <div class="panel-body">
@@ -95,8 +83,8 @@
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="submit" class="btn btn-success" [hidden]="isupdated">
-          {{ bookupdateForm.controls.id.value ? "Update" : "Add" }}
+        <button type="submit" class="btn btn-success">
+          {{ isAdd ? "Add" : "Update" }}
         </button>
         <button
           type="button"
