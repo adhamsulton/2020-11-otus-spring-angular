@@ -1,0 +1,100 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 style="text-align: center">Books</h1>
+    <br />
+  </div>
+
+  <div class="panel-body">
+    <table class="table table-hover table-sm">
+      <thead class="thead-light">
+        <tr>
+          <th>Book Id</th>
+          <th>Book Name</th>
+          <th>Book Genre</th>
+          <th>Book Authors</th>
+          <th>
+            <button class="btn btn-success ml-5" (click)="openModal(myModal)">
+              Add
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books">
+          <td>{{ book.id }}</td>
+          <td>{{ book.name }}</td>
+          <td>{{ book.genre.name }}</td>
+          <td>{{ authList(book.authorList) }}</td>
+
+          <td>
+            <button (click)="deleteBook(book.id)" class="btn btn-primary">
+              Delete</button
+            >&nbsp;
+            <button (click)="openModal(myModal, book.id)" class="btn btn-info">
+              Update
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <br />
+    </table>
+  </div>
+</div>
+
+<ng-template #myModal>
+  <div class="modal-content">
+    <form [formGroup]="bookupdateForm" #updstu (ngSubmit)="saveBook()">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="text-align: center">Update Book</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="bookupdateForm">
+        <input type="hidden" class="form-control" formControlName="id" />
+        <div class="form-group">
+          <label for="name">Book Name</label>
+          <input type="text" class="form-control" formControlName="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="name">Genre</label>
+          <select class="form-control" formControlName="genre" required>
+            <option [value]="item.id" *ngFor="let item of genres">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Author</label>
+          <select
+            class="form-control"
+            formControlName="author"
+            required
+            multiple
+          >
+            <option [value]="item.id" *ngFor="let item of authors">
+              {{ item.fullName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+          {{ isAdd ? "Add" : "Update" }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="changeisUpdate()"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
